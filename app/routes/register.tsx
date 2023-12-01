@@ -1,10 +1,8 @@
-import React from 'react';
-import { Container, TextField, Button, Card, Typography, Alert, Box, Link } from '@mui/material';
 import { json, redirect, ActionFunction, LoaderFunction } from '@remix-run/node';
-import { useActionData } from '@remix-run/react';
-import { BACKEND_URL } from '~/config';
-import { commitSession, getSession } from '~/utils/session';
-import { authenticateUser, loginUser } from '~/utils/auth';
+import { useActionData, Form } from '@remix-run/react';
+import { Container, TextField, Button, Card, Typography, Alert, Box, Link } from '@mui/material';
+import { loginUser, registerUser } from '~/utils/auth';
+import { getSession } from '~/session';
 
 export const loader: LoaderFunction = async ({ request }) => {
   const session = await getSession(request.headers.get('Cookie'));
@@ -19,24 +17,39 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
+  const name = formData.get('name') as string;
   const email = formData.get('email') as string;
   const password = formData.get('password') as string;
+  const costCenterId = formData.get('costCenterId') as string || undefined;
 
-  return await loginUser({ email, password }, request);
+  try {
+    await registerUser({ name, email, password, costCenterId: undefined });
+    return await loginUser({ email, password }, request)
+  } catch (error) {
+    return json({ errorMessage: (error as Error).message });
+  }
 };
 
-export default function Index() {
+export default function Register() {
   const actionData = useActionData<{ errorMessage: string }>();
-
+  
   return (
     <Container maxWidth="sm">
       <Card sx={{ padding: 3, marginTop: 5 }}>
         <Typography variant="h5" gutterBottom>
-          Login
+          Cadastre-se
         </Typography>
         {actionData?.errorMessage && <Alert severity="error">{actionData.errorMessage}</Alert>}
-        <form method="post">
-          <TextField
+        <Form method="post">
+          <TextField 
+            name="name"
+            label="Nome"
+            type="text"
+            fullWidth
+            required
+            margin="normal"
+          />
+          <TextField 
             name="email"
             label="Email"
             type="email"
@@ -44,7 +57,7 @@ export default function Index() {
             required
             margin="normal"
           />
-          <TextField
+          <TextField 
             name="password"
             label="Senha"
             type="password"
@@ -52,16 +65,23 @@ export default function Index() {
             required
             margin="normal"
           />
+          <TextField 
+            name="costCenterId"
+            label="Código do convite (opcional)"
+            type="text"
+            fullWidth
+            margin="normal"
+          />
           <Button type="submit" variant="contained" color="primary" fullWidth>
-            Entrar
+            Cadastrar
           </Button>
-          <Box display="flex" justifyContent="center" mt="16px">
-            Não tem uma conta?&nbsp;
-            <Link href="/register">
-              Registre-se
+        </Form>
+        <Box display="flex" justifyContent="center" mt="16px">
+            Já tem uma conta?&nbsp;
+            <Link href="/index">
+              Faça o login
             </Link>
           </Box>
-        </form>
       </Card>
     </Container>
   );
