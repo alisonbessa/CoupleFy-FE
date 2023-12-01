@@ -1,10 +1,13 @@
 import { json, redirect, ActionFunction, LoaderFunction } from '@remix-run/node';
-import { useActionData, Form } from '@remix-run/react';
+import { useActionData, Form, useLoaderData } from '@remix-run/react';
 import { Container, TextField, Button, Card, Typography, Alert, Box, Link } from '@mui/material';
 import { loginUser, registerUser } from '~/utils/auth';
 import { getSession } from '~/session';
 
 export const loader: LoaderFunction = async ({ request }) => {
+  const url = new URL(request.url);
+  const costCenterId = url.searchParams.get('costCenterId');
+
   const session = await getSession(request.headers.get('Cookie'));
   
   const token = session.get('token');
@@ -12,7 +15,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     return redirect('/dashboard');
   }
 
-  return null;
+  return { costCenterId };;
 };
 
 export const action: ActionFunction = async ({ request }) => {
@@ -23,7 +26,7 @@ export const action: ActionFunction = async ({ request }) => {
   const costCenterId = formData.get('costCenterId') as string || undefined;
 
   try {
-    await registerUser({ name, email, password, costCenterId: undefined });
+    await registerUser({ name, email, password, costCenterId });
     return await loginUser({ email, password }, request)
   } catch (error) {
     return json({ errorMessage: (error as Error).message });
@@ -31,6 +34,7 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function Register() {
+  const { costCenterId } = useLoaderData<{ costCenterId: string | null }>();
   const actionData = useActionData<{ errorMessage: string }>();
   
   return (
@@ -70,6 +74,7 @@ export default function Register() {
             label="Código do convite (opcional)"
             type="text"
             fullWidth
+            defaultValue={costCenterId}
             margin="normal"
           />
           <Button type="submit" variant="contained" color="primary" fullWidth>
