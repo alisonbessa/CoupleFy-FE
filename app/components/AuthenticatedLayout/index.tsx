@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, Drawer, List, ListItem, ListItemText, Button, Box } from '@mui/material';
+import { AppBar, Toolbar, Typography, Drawer, List, ListItem, ListItemText, Button, Box, Link } from '@mui/material';
 
 type AuthenticatedLayoutProps = {
   children: React.ReactNode;
@@ -8,18 +8,14 @@ type AuthenticatedLayoutProps = {
 const drawerWidth = 200;
 
 export default function AuthenticatedLayout({ children }: AuthenticatedLayoutProps) {
-  const handleLogout = () => {
-    // Lógica de logout
-  };
-
   return (
     <div style={{ display: 'flex' }}>
-      <AppBar position="fixed" style={{ zIndex: 1201 }}> {/* zIndex maior que o Drawer */}
+      <AppBar position="fixed" style={{ zIndex: 1201 }}>
         <Toolbar>
           <Typography variant="h6" noWrap component="div" style={{ flexGrow: 1 }}>
             CoupleFy
           </Typography>
-          <Button color="inherit" onClick={handleLogout}>Logout</Button>
+          <Button color="inherit" href="/logout">Logout</Button>
         </Toolbar>
       </AppBar>
       <Drawer
