@@ -1,23 +1,20 @@
-import { redirect } from '@remix-run/node';
-import React from 'react';
-import { getSession } from '~/session';
+import ProtectedLayout from '~/components/ProtectedLayout';
+import { isAuthenticated } from '~/utils/auth';
 
 export const loader = async ({ request }:any) => {
-  const session = await getSession(request.headers.get('Cookie'));
-  const token = session.get('token');
-
-  if (!token) {
-    return redirect('/');
-  }
-
-  return null;
+  const hasCredentials = await isAuthenticated(request)
+  
+  return {
+    hasCredentials,
+    request
+  };
 };
 
 export default function Dashboard() {
   return (
-    <React.Fragment>
+    <ProtectedLayout>
       <h1>Dashboard</h1>
       <p>Bem-vindo ao seu painel de controle!</p>
-    </React.Fragment>
+    </ProtectedLayout>
   );
 }
