@@ -14,7 +14,7 @@ export default function Dashboard() {
   return (
     <ProtectedLayout>
       <h1>Dashboard</h1>
-      <p>Bem-vindo ao seu painel de controle!</p>
+      <p>Esse é seu painel de controle!</p>
     </ProtectedLayout>
   );
 }
