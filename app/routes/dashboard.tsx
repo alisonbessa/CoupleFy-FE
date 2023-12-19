@@ -1,11 +1,14 @@
+import { Outlet } from '@remix-run/react';
 import ProtectedLayout from '~/components/ProtectedLayout';
-import { isAuthenticated } from '~/utils/auth';
+import { LoaderData } from '~/types/authLoader';
+import { isAuthenticated } from '~/services/auth';
 
-export const loader = async ({ request }:any) => {
-  const hasCredentials = await isAuthenticated(request)
+export const loader = async ({ request }:any): Promise<LoaderData> => {
+  const token = await isAuthenticated(request)
   
   return {
-    hasCredentials,
+    token,
+    hasCredentials: !!token,
     request
   };
 };
@@ -13,8 +16,7 @@ export const loader = async ({ request }:any) => {
 export default function Dashboard() {
   return (
     <ProtectedLayout>
-      <h1>Dashboard</h1>
-      <p>Esse é seu painel de controle!</p>
+      <Outlet />
     </ProtectedLayout>
   );
 }

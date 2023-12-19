@@ -1,6 +1,6 @@
 import { BACKEND_URL } from '~/config';
-import { commitSession, getSession } from './session';
-import { ActionFunction, json, redirect } from '@remix-run/server-runtime';
+import { commitSession, getSession } from '../utils/session';
+import { json, redirect } from '@remix-run/server-runtime';
 
 type UserParameters = {
   email: string,
@@ -29,9 +29,9 @@ export async function authenticateUser(email: string, password: string): Promise
   return data.accessToken;
 }
 
-export async function isAuthenticated(request: Request): Promise<boolean> {
+export async function isAuthenticated(request: Request): Promise<string> {
   const session = await getSession(request.headers.get('Cookie'));
-  return !!session.get('token');
+  return session.get('token');
 }
 
 export async function registerUser(newUserParams: NewUserParameters): Promise<void> {

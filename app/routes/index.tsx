@@ -1,10 +1,8 @@
-import React from 'react';
 import { Container, TextField, Button, Card, Typography, Alert, Box, Link } from '@mui/material';
-import { json, redirect, ActionFunction, LoaderFunction } from '@remix-run/node';
+import { redirect, ActionFunction, LoaderFunction } from '@remix-run/node';
 import { useActionData } from '@remix-run/react';
-import { BACKEND_URL } from '~/config';
-import { commitSession, getSession } from '~/utils/session';
-import { authenticateUser, loginUser } from '~/utils/auth';
+import { getSession } from '~/utils/session';
+import { loginUser } from '~/services/auth';
 
 export const loader: LoaderFunction = async ({ request }) => {
   const session = await getSession(request.headers.get('Cookie'));

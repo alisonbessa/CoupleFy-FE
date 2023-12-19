@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { AppBar, Toolbar, Typography, Drawer, List, ListItem, ListItemText, Button, Box, Collapse } from '@mui/material';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
+import { Link } from '@remix-run/react';
 
 
 type AuthenticatedLayoutProps = {
@@ -31,7 +32,7 @@ export default function AuthenticatedLayout({ children }: AuthenticatedLayoutPro
           <Toolbar />
           <div style={{ overflow: 'auto' }}>
             <Box display="flex" justifyContent="center">Menu</Box>
-            <List>
+            <List disablePadding>
               <ListItem component="a" href="/dashboard">
                 <ListItemText primary="Dashboard" />
               </ListItem>
@@ -45,8 +46,9 @@ export default function AuthenticatedLayout({ children }: AuthenticatedLayoutPro
               </ListItem>
               <Collapse in={open} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
-                  <ListItem  component="a" href="/categories" style={{ paddingLeft: 32 }}>
-                    <ListItemText primary="Categorias" />
+                  <ListItem style={{ paddingLeft: 32 }}>
+                    <Link to={'/dashboard/categories'}>Categorias</Link>
+                    {/* <ListItemText primary="Categorias" /> */}
                   </ListItem>
                   <ListItem  component="a" href="/subcategories" style={{ paddingLeft: 32 }}>
                     <ListItemText primary="Subcategorias" />

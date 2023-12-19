@@ -1,8 +1,8 @@
 import { json, redirect, ActionFunction, LoaderFunction } from '@remix-run/node';
 import { useActionData, Form, useLoaderData } from '@remix-run/react';
 import { Container, TextField, Button, Card, Typography, Alert, Box, Link } from '@mui/material';
-import { loginUser, registerUser } from '~/utils/auth';
-import { getSession } from '~/session';
+import { loginUser, registerUser } from '~/services/auth';
+import { getSession } from '~/utils/session';
 
 export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
