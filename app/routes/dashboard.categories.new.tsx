@@ -1,6 +1,6 @@
 import { Button, TextField, FormControlLabel, Switch, Slider, Tooltip } from '@mui/material';
 import { ActionFunction, json, redirect } from '@remix-run/node';
-import { useActionData, Form } from '@remix-run/react';
+import { Form, useNavigation } from '@remix-run/react';
 import { useState, useEffect } from 'react';
 import ModalLikeWrapper from '~/components/ModallikeWrapper';
 import { createCategory } from '~/services/categories';
@@ -33,6 +33,10 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function NewCategory() {
+  const navigationData = useNavigation();
+  const isLoading = navigationData.state !== 'idle'
+
+
   const [primaryUserWeight, setPrimaryUserWeight] = useState(50);
   const [secondaryUserWeight, setSecondaryUserWeight] = useState(50);
 
@@ -95,7 +99,7 @@ export default function NewCategory() {
           margin="normal"
         />
 
-        <Button variant="contained" type="submit" sx={{ mt: 2 }}>Salvar Categoria</Button>
+        <Button variant="contained" type="submit" sx={{ mt: 2 }} disabled={isLoading}>Salvar Categoria</Button>
       </Form>
     </ModalLikeWrapper>
   );

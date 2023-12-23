@@ -2,7 +2,8 @@ import React from 'react';
 import { ListItem, ListItemText, IconButton, Typography, Box } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useFetcher } from '@remix-run/react';
+import { useFetcher, useNavigate } from '@remix-run/react';
+import { redirect } from '@remix-run/server-runtime';
 
 type CategoryItemProps = {
   id: string;
@@ -18,9 +19,10 @@ export default function CategoryItem({
 	secondaryUserWeight
 }: CategoryItemProps) {
   const fetcher = useFetcher();
+  const navigate = useNavigate();
 
   const handleEdit = () => {
-    // Implemente a lógica de navegação para a página de edição aqui
+    navigate(`/dashboard/categories/${id}/edit`);
   };
 
   const handleDelete = async () => {

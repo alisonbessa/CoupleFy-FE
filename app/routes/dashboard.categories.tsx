@@ -1,4 +1,4 @@
-import { Link, Outlet, useLoaderData } from '@remix-run/react';
+import { Link, Outlet, useLoaderData, useNavigation } from '@remix-run/react';
 import { Button, List, ListItem, ListItemText } from '@mui/material';
 import { LoaderFunction } from '@remix-run/node';
 import { getSession } from '~/utils/session';
@@ -22,6 +22,11 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export default function DashboardCategories() {
   const categories = useLoaderData<Category[]>();
+
+  const navigationData = useNavigation();
+  const isLoading = navigationData.state !== 'idle'
+
+  console.log('isLoading', isLoading);
 
   return (
     <div>
