@@ -2,6 +2,7 @@ import React from 'react';
 import { ListItem, ListItemText, IconButton, Typography, Box } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useFetcher } from '@remix-run/react';
 
 type CategoryItemProps = {
   id: string;
@@ -16,12 +17,16 @@ export default function CategoryItem({
 	primaryUserWeight,
 	secondaryUserWeight
 }: CategoryItemProps) {
+  const fetcher = useFetcher();
+
   const handleEdit = () => {
     // Implemente a lógica de navegação para a página de edição aqui
   };
 
-  const handleDelete = () => {
-    // Implemente a lógica de exclusão aqui
+  const handleDelete = async () => {
+    if (window.confirm('Tem certeza que deseja excluir esta categoria?')) {
+      await fetcher.submit({ id }, { method: 'delete', action: `/dashboard/categories/${id}/delete` });
+    }
   };
 
   return (
