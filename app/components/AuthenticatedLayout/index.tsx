@@ -48,9 +48,8 @@ export default function AuthenticatedLayout({ children }: AuthenticatedLayoutPro
                 <List component="div" disablePadding>
                   <ListItem style={{ paddingLeft: 32 }}>
                     <Link to={'/dashboard/categories'}>Categorias</Link>
-                    {/* <ListItemText primary="Categorias" /> */}
                   </ListItem>
-                  <ListItem  component="a" href="/subcategories" style={{ paddingLeft: 32 }}>
+                  <ListItem  component="a" href="/dashboard/subcategories" style={{ paddingLeft: 32 }}>
                     <ListItemText primary="Subcategorias" />
                   </ListItem>
                   {/* TODO: Add other options here */}

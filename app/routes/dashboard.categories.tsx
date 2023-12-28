@@ -25,8 +25,7 @@ export default function DashboardCategories() {
 
   const navigationData = useNavigation();
   const isLoading = navigationData.state !== 'idle'
-
-  console.log('isLoading', isLoading);
+  // TODO: Add loading page
 
   return (
     <div>
