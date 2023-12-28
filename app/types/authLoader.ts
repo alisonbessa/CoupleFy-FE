@@ -1,5 +1,5 @@
 export interface LoaderData {
-    token: string;
-    hasCredentials: boolean;
-    request: any;
-  }
+  token: string;
+  hasCredentials: boolean;
+  request: any;
+}

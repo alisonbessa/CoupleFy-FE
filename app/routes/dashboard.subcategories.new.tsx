@@ -1,6 +1,26 @@
-import { ActionFunction, LoaderFunction, json, redirect } from '@remix-run/node';
-import { useActionData, Form, useLoaderData, useNavigation } from '@remix-run/react';
-import { Button, TextField, FormControlLabel, Switch, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import {
+  ActionFunction,
+  LoaderFunction,
+  json,
+  redirect,
+} from '@remix-run/node';
+import {
+  useActionData,
+  Form,
+  useLoaderData,
+  useNavigation,
+} from '@remix-run/react';
+import {
+  Button,
+  TextField,
+  FormControlLabel,
+  Switch,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+} from '@mui/material';
 import ModalLikeWrapper from '~/components/ModallikeWrapper';
 import { Category } from '~/types/category';
 import { createSubcategory } from '~/services/subcategories';
@@ -26,11 +46,18 @@ export const action: ActionFunction = async ({ request }) => {
   const primaryUserWeightValue = formData.get('primaryUserWeight');
   const secondaryUserWeightValue = formData.get('secondaryUserWeight');
 
-  const primaryUserWeight = primaryUserWeightValue ? Number(primaryUserWeightValue) : 0;
-  const secondaryUserWeight = secondaryUserWeightValue ? Number(secondaryUserWeightValue) : 0;
+  const primaryUserWeight = primaryUserWeightValue
+    ? Number(primaryUserWeightValue)
+    : 0;
+  const secondaryUserWeight = secondaryUserWeightValue
+    ? Number(secondaryUserWeightValue)
+    : 0;
 
   try {
-    await createSubcategory({ name, categoryId, primaryUserWeight, secondaryUserWeight }, token);
+    await createSubcategory(
+      { name, categoryId, primaryUserWeight, secondaryUserWeight },
+      token
+    );
     return redirect('/dashboard/subcategories');
   } catch (error) {
     return json({ errorMessage: 'Erro ao criar a subcategoria' });
@@ -40,7 +67,7 @@ export const action: ActionFunction = async ({ request }) => {
 export default function NewSubcategory() {
   const categories = useLoaderData<Category[]>();
   const navigationData = useNavigation();
-  const isLoading = navigationData.state !== 'idle'
+  const isLoading = navigationData.state !== 'idle';
 
   const [primaryUserWeight, setPrimaryUserWeight] = useState(50);
   const [secondaryUserWeight, setSecondaryUserWeight] = useState(50);
@@ -53,39 +80,50 @@ export default function NewSubcategory() {
     setPrimaryUserWeight(100 - secondaryUserWeight);
   }, [secondaryUserWeight]);
 
-  const handlePrimaryWeightChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPrimaryUserWeight(Math.min(100, Math.max(0, Number(event.target.value))));
+  const handlePrimaryWeightChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setPrimaryUserWeight(
+      Math.min(100, Math.max(0, Number(event.target.value)))
+    );
   };
 
-  const handleSecondaryWeightChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSecondaryUserWeight(Math.min(100, Math.max(0, Number(event.target.value))));
+  const handleSecondaryWeightChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setSecondaryUserWeight(
+      Math.min(100, Math.max(0, Number(event.target.value)))
+    );
   };
-
 
   return (
-    <ModalLikeWrapper title='Nova Subcategoria'>
-    <Form method="post">
-      <TextField
-        label="Nome da Subcategoria"
-        name="name"
-        required
-        fullWidth
-        margin="normal"
-      />
-      
-      <FormControl fullWidth margin="normal">
-        <InputLabel id="category-label">Categoria</InputLabel>
-        <Select
-          labelId="category-label"
-          name="categoryId"
-          label="Categoria"
+    <ModalLikeWrapper title="Nova Subcategoria">
+      <Form method="post">
+        <TextField
+          label="Nome da Subcategoria"
+          name="name"
           required
-        >
-          {categories.map((category) => <MenuItem value={category.id}>{category.name}</MenuItem> )}
-        </Select>
-      </FormControl>
+          fullWidth
+          margin="normal"
+        />
 
-      <TextField
+        <FormControl fullWidth margin="normal">
+          <InputLabel id="category-label">Categoria</InputLabel>
+          <Select
+            labelId="category-label"
+            name="categoryId"
+            label="Categoria"
+            required
+          >
+            {categories.map((category) => (
+              <MenuItem key={category.id} value={category.id}>
+                {category.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
+        <TextField
           label="Peso para Usuário Primário"
           type="number"
           name="primaryUserWeight"
@@ -109,10 +147,15 @@ export default function NewSubcategory() {
           margin="normal"
         />
 
-      <Button variant="contained" type="submit" sx={{ mt: 2 }} disabled={isLoading}>
-        Salvar Subcategoria
-      </Button>
-    </Form>
-  </ModalLikeWrapper>
+        <Button
+          variant="contained"
+          type="submit"
+          sx={{ mt: 2 }}
+          disabled={isLoading}
+        >
+          Salvar Subcategoria
+        </Button>
+      </Form>
+    </ModalLikeWrapper>
   );
 }

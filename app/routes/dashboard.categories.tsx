@@ -12,8 +12,8 @@ export const loader: LoaderFunction = async ({ request }) => {
 
   const response = await fetch(`${BACKEND_URL}/categories`, {
     headers: {
-      'Authorization': `Bearer ${token}`
-    }
+      Authorization: `Bearer ${token}`,
+    },
   });
   const categories = await response.json();
 
@@ -24,7 +24,7 @@ export default function DashboardCategories() {
   const categories = useLoaderData<Category[]>();
 
   const navigationData = useNavigation();
-  const isLoading = navigationData.state !== 'idle'
+  const isLoading = navigationData.state !== 'idle';
   // TODO: Add loading page
 
   return (
@@ -38,10 +38,10 @@ export default function DashboardCategories() {
 
       <List>
         {categories.map((category) => (
-          <CategoryItem 
-            key={category.id} 
-            id={category.id} 
-            name={category.name} 
+          <CategoryItem
+            key={category.id}
+            id={category.id}
+            name={category.name}
             primaryUserWeight={category.primaryUserWeight}
             secondaryUserWeight={category.secondaryUserWeight}
           />

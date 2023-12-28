@@ -3,16 +3,19 @@ import { commitSession, getSession } from '../utils/session';
 import { json, redirect } from '@remix-run/server-runtime';
 
 type UserParameters = {
-  email: string,
-  password: string
-}
+  email: string;
+  password: string;
+};
 
 type NewUserParameters = UserParameters & {
-  name: string,
-  costCenterId?: string
-}
+  name: string;
+  costCenterId?: string;
+};
 
-export async function authenticateUser(email: string, password: string): Promise<string> {
+export async function authenticateUser(
+  email: string,
+  password: string
+): Promise<string> {
   const response = await fetch(`${BACKEND_URL}/auth/login`, {
     method: 'POST',
     headers: {
@@ -34,9 +37,10 @@ export async function isAuthenticated(request: Request): Promise<string> {
   return session.get('token');
 }
 
-export async function registerUser(newUserParams: NewUserParameters): Promise<void> {
-  const response = await fetch(`${BACKEND_URL}/users`, 
-  {
+export async function registerUser(
+  newUserParams: NewUserParameters
+): Promise<void> {
+  const response = await fetch(`${BACKEND_URL}/users`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -50,7 +54,10 @@ export async function registerUser(newUserParams: NewUserParameters): Promise<vo
   }
 }
 
-export const loginUser = async (userParams: UserParameters, request: Request) => {
+export const loginUser = async (
+  userParams: UserParameters,
+  request: Request
+) => {
   const { email, password } = userParams;
 
   try {
@@ -64,6 +71,8 @@ export const loginUser = async (userParams: UserParameters, request: Request) =>
       },
     });
   } catch (error) {
-    return json({ errorMessage: 'Falha na autenticação. Verifique suas credenciais.' });
+    return json({
+      errorMessage: 'Falha na autenticação. Verifique suas credenciais.',
+    });
   }
 };

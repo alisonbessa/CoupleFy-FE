@@ -1,12 +1,12 @@
-import { BACKEND_URL } from "~/config";
-import { Category, NewCategory } from "~/types/category";
+import { BACKEND_URL } from '~/config';
+import { Category, NewCategory } from '~/types/category';
 
 export async function fetchCategories(token: string) {
   const response = await fetch(`${BACKEND_URL}/categories`, {
     method: 'GET',
     headers: {
-      'Authorization': `Bearer ${token}`
-    }
+      Authorization: `Bearer ${token}`,
+    },
   });
 
   if (!response.ok) {
@@ -22,7 +22,7 @@ export async function createCategory(categoryData: NewCategory, token: string) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(categoryData),
   });
@@ -34,17 +34,16 @@ export async function createCategory(categoryData: NewCategory, token: string) {
   return response.json();
 }
 
-
 export async function updateCategory(categoryData: Category, token: string) {
   const response = await fetch(`${BACKEND_URL}/categories/${categoryData.id}`, {
     method: 'PATCH',
     headers: {
-      'Authorization': `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(categoryData),
   });
-  
+
   if (!response.ok) {
     throw new Error('Falha ao atualizar a categoria');
   }

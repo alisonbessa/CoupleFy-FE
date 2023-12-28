@@ -1,1 +1,2 @@
-export const BACKEND_URL = process.env.BACKEND_URL || 'https://couplefy-be.onrender.com';
+export const BACKEND_URL =
+  process.env.BACKEND_URL || 'https://couplefy-be.onrender.com';

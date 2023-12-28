@@ -12,7 +12,7 @@ export const action: ActionFunction = async ({ request, params }) => {
     const response = await fetch(`${BACKEND_URL}/categories/${categoryId}`, {
       method: 'DELETE',
       headers: {
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
 

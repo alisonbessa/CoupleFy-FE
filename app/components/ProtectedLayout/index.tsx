@@ -9,7 +9,7 @@ type Props = {
 
 type LoaderData = {
   hasCredentials: boolean;
-}
+};
 
 export default function ProtectedLayout({ children }: Props) {
   const { hasCredentials } = useLoaderData<LoaderData>();

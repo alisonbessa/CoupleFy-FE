@@ -1,4 +1,13 @@
-import { Container, TextField, Button, Card, Typography, Alert, Box, Link } from '@mui/material';
+import {
+  Container,
+  TextField,
+  Button,
+  Card,
+  Typography,
+  Alert,
+  Box,
+  Link,
+} from '@mui/material';
 import { redirect, ActionFunction, LoaderFunction } from '@remix-run/node';
 import { useActionData } from '@remix-run/react';
 import { getSession } from '~/utils/session';
@@ -6,7 +15,7 @@ import { loginUser } from '~/services/auth';
 
 export const loader: LoaderFunction = async ({ request }) => {
   const session = await getSession(request.headers.get('Cookie'));
-  
+
   const token = session.get('token');
   if (token) {
     return redirect('/dashboard');
@@ -32,7 +41,9 @@ export default function Index() {
         <Typography variant="h5" gutterBottom>
           Login
         </Typography>
-        {actionData?.errorMessage && <Alert severity="error">{actionData.errorMessage}</Alert>}
+        {actionData?.errorMessage && (
+          <Alert severity="error">{actionData.errorMessage}</Alert>
+        )}
         <form method="post">
           <TextField
             name="email"
@@ -55,9 +66,7 @@ export default function Index() {
           </Button>
           <Box display="flex" justifyContent="center" mt="16px">
             Não tem uma conta?&nbsp;
-            <Link href="/register">
-              Registre-se
-            </Link>
+            <Link href="/register">Registre-se</Link>
           </Box>
         </form>
       </Card>

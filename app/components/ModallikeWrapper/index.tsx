@@ -42,17 +42,21 @@ export default function ModalLikeWrapper({ title, children }: ModalProps) {
     <>
       <Box sx={ModalBackdropStyles} onClick={handleClose} />
       <Box sx={ModalBoxStyles}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
           <Typography variant="h6">{title}</Typography>
           <IconButton onClick={handleClose}>
             <CloseIcon />
           </IconButton>
         </Box>
         <Divider sx={{ my: 2 }} />
-        <Box>
-          {children}
-        </Box>
+        <Box>{children}</Box>
       </Box>
     </>
   );
-};
+}

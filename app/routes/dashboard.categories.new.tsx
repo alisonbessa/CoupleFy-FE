@@ -1,4 +1,11 @@
-import { Button, TextField, FormControlLabel, Switch, Slider, Tooltip } from '@mui/material';
+import {
+  Button,
+  TextField,
+  FormControlLabel,
+  Switch,
+  Slider,
+  Tooltip,
+} from '@mui/material';
 import { ActionFunction, json, redirect } from '@remix-run/node';
 import { Form, useNavigation } from '@remix-run/react';
 import { useState, useEffect } from 'react';
@@ -17,12 +24,19 @@ export const action: ActionFunction = async ({ request }) => {
   const primaryUserWeightValue = formData.get('primaryUserWeight');
   const secondaryUserWeightValue = formData.get('secondaryUserWeight');
 
-  const primaryUserWeight = primaryUserWeightValue ? Number(primaryUserWeightValue) : 0;
-  const secondaryUserWeight = secondaryUserWeightValue ? Number(secondaryUserWeightValue) : 0;
+  const primaryUserWeight = primaryUserWeightValue
+    ? Number(primaryUserWeightValue)
+    : 0;
+  const secondaryUserWeight = secondaryUserWeightValue
+    ? Number(secondaryUserWeightValue)
+    : 0;
 
   try {
     if (typeof name === 'string') {
-      await createCategory({ name, isPrivate, primaryUserWeight, secondaryUserWeight }, token);
+      await createCategory(
+        { name, isPrivate, primaryUserWeight, secondaryUserWeight },
+        token
+      );
       return redirect('/dashboard/categories');
     } else {
       throw new Error('Nome da categoria inválido');
@@ -34,8 +48,7 @@ export const action: ActionFunction = async ({ request }) => {
 
 export default function NewCategory() {
   const navigationData = useNavigation();
-  const isLoading = navigationData.state !== 'idle'
-
+  const isLoading = navigationData.state !== 'idle';
 
   const [primaryUserWeight, setPrimaryUserWeight] = useState(50);
   const [secondaryUserWeight, setSecondaryUserWeight] = useState(50);
@@ -48,16 +61,24 @@ export default function NewCategory() {
     setPrimaryUserWeight(100 - secondaryUserWeight);
   }, [secondaryUserWeight]);
 
-  const handlePrimaryWeightChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPrimaryUserWeight(Math.min(100, Math.max(0, Number(event.target.value))));
+  const handlePrimaryWeightChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setPrimaryUserWeight(
+      Math.min(100, Math.max(0, Number(event.target.value)))
+    );
   };
 
-  const handleSecondaryWeightChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSecondaryUserWeight(Math.min(100, Math.max(0, Number(event.target.value))));
+  const handleSecondaryWeightChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setSecondaryUserWeight(
+      Math.min(100, Math.max(0, Number(event.target.value)))
+    );
   };
 
   return (
-    <ModalLikeWrapper title='Nova Categoria'>
+    <ModalLikeWrapper title="Nova Categoria">
       <Form method="post">
         <TextField
           label="Nome da Categoria"
@@ -99,7 +120,14 @@ export default function NewCategory() {
           margin="normal"
         />
 
-        <Button variant="contained" type="submit" sx={{ mt: 2 }} disabled={isLoading}>Salvar Categoria</Button>
+        <Button
+          variant="contained"
+          type="submit"
+          sx={{ mt: 2 }}
+          disabled={isLoading}
+        >
+          Salvar Categoria
+        </Button>
       </Form>
     </ModalLikeWrapper>
   );

@@ -9,12 +9,15 @@ export const action: ActionFunction = async ({ request, params }) => {
   const { subcategoryId } = params;
 
   try {
-    const response = await fetch(`${BACKEND_URL}/subcategories/${subcategoryId}`, {
-      method: 'DELETE',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-    });
+    const response = await fetch(
+      `${BACKEND_URL}/subcategories/${subcategoryId}`,
+      {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     if (!response.ok) {
       throw new Error('Erro ao excluir a subcategoria');

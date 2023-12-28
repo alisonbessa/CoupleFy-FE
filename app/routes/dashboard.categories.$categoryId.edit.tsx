@@ -1,4 +1,9 @@
-import { ActionFunction, LoaderFunction, json, redirect } from '@remix-run/node';
+import {
+  ActionFunction,
+  LoaderFunction,
+  json,
+  redirect,
+} from '@remix-run/node';
 import { useLoaderData, Form, useNavigation } from '@remix-run/react';
 import { getSession } from '~/utils/session';
 import { BACKEND_URL } from '~/config';
@@ -15,8 +20,8 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
   const response = await fetch(`${BACKEND_URL}/categories/${categoryId}`, {
     headers: {
-      'Authorization': `Bearer ${token}`
-    }
+      Authorization: `Bearer ${token}`,
+    },
   });
 
   if (!response.ok) {
@@ -35,7 +40,7 @@ export const action: ActionFunction = async ({ request, params }) => {
 
   const session = await getSession(request.headers.get('Cookie'));
   const token = session.get('token');
-  
+
   const formData = await request.formData();
   const categoryData: Category = {
     name: formData.get('name') as string,
@@ -43,7 +48,7 @@ export const action: ActionFunction = async ({ request, params }) => {
     isPrivate: false,
     primaryUserWeight: Number(formData.get('primaryUserWeight')),
     secondaryUserWeight: Number(formData.get('secondaryUserWeight')),
-    id: categoryId
+    id: categoryId,
   };
 
   try {
@@ -58,7 +63,7 @@ export default function EditCategory() {
   const category = useLoaderData<Category>();
 
   const navigationData = useNavigation();
-  const isLoading = navigationData.state !== 'idle'
+  const isLoading = navigationData.state !== 'idle';
 
   const [primaryUserWeight, setPrimaryUserWeight] = useState(50);
   const [secondaryUserWeight, setSecondaryUserWeight] = useState(50);
@@ -71,16 +76,24 @@ export default function EditCategory() {
     setPrimaryUserWeight(100 - secondaryUserWeight);
   }, [secondaryUserWeight]);
 
-  const handlePrimaryWeightChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPrimaryUserWeight(Math.min(100, Math.max(0, Number(event.target.value))));
+  const handlePrimaryWeightChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setPrimaryUserWeight(
+      Math.min(100, Math.max(0, Number(event.target.value)))
+    );
   };
 
-  const handleSecondaryWeightChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSecondaryUserWeight(Math.min(100, Math.max(0, Number(event.target.value))));
+  const handleSecondaryWeightChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setSecondaryUserWeight(
+      Math.min(100, Math.max(0, Number(event.target.value)))
+    );
   };
 
   return (
-    <ModalLikeWrapper title='Editar Categoria'>
+    <ModalLikeWrapper title="Editar Categoria">
       <Form method="post">
         <TextField
           label="Nome da Categoria"
@@ -117,7 +130,14 @@ export default function EditCategory() {
           fullWidth
           margin="normal"
         />
-        <Button variant="contained" type="submit" sx={{ mt: 2 }} disabled={isLoading}>Salvar Alterações</Button>
+        <Button
+          variant="contained"
+          type="submit"
+          sx={{ mt: 2 }}
+          disabled={isLoading}
+        >
+          Salvar Alterações
+        </Button>
       </Form>
     </ModalLikeWrapper>
   );

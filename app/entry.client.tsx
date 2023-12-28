@@ -20,7 +20,7 @@ function ClientCacheProvider({ children }: ClientCacheProviderProps) {
         setCache(createEmotionCache());
       },
     }),
-    [],
+    []
   );
 
   return (
@@ -39,7 +39,7 @@ const hydrate = () => {
           <CssBaseline />
           <RemixBrowser />
         </ThemeProvider>
-      </ClientCacheProvider>,
+      </ClientCacheProvider>
     );
   });
 };
