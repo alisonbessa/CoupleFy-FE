@@ -1,6 +1,26 @@
 import { BACKEND_URL } from "~/config";
 import { Category, NewCategory } from "~/types/category";
 
+/**
+ * @param {string} token
+ * @returns {Promise<Array>}
+ */
+export async function fetchCategories(token: string) {
+  const response = await fetch(`${BACKEND_URL}/categories`, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  });
+
+  if (!response.ok) {
+    throw new Error('Erro ao buscar categorias');
+  }
+
+  const categories = await response.json();
+  return categories;
+}
+
 export async function createCategory(categoryData: NewCategory, token: string) {
     const response = await fetch(`${BACKEND_URL}/categories`, {
       method: 'POST',
